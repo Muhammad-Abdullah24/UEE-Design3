@@ -16,7 +16,7 @@ export default function NavbarC() {
   const links = [
     { label: 'Services', href: '/services' },
     { label: 'About', href: '/about' },
-    { label: 'Projects', href: '/#projects' },
+    { label: 'Projects', href: '/projects' },
     { label: 'Clients', href: '/#clients' },
     { label: 'Contact', href: '/contact' },
   ];
