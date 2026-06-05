@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import NavbarC from '@/components/Navbar';
 
 // ─── SHARED SECTION LABEL ───────────────────────────────────────
 function SectionLabel({ text, color = 'var(--lime)', align = 'left' }) {
@@ -828,6 +829,7 @@ function AboutCTA() {
 export default function AboutPage() {
   return (
     <main>
+      <NavbarC />
       <AboutHero />
       <Timeline />
       <VisionMission />

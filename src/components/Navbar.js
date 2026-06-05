@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
+import Link from 'next/link';
 import { motion, useScroll, useTransform } from 'framer-motion';
 
 export default function NavbarC() {
@@ -12,7 +13,13 @@ export default function NavbarC() {
     return unsub;
   }, [scrollYProgress]);
 
-  const links = ['Services', 'About', 'Projects', 'Clients', 'Contact'];
+  const links = [
+    { label: 'Services', href: '/#services' },
+    { label: 'About', href: '/about' },
+    { label: 'Projects', href: '/#projects' },
+    { label: 'Clients', href: '/#clients' },
+    { label: 'Contact', href: '/contact' },
+  ];
 
   return (
     <motion.nav
@@ -57,55 +64,60 @@ export default function NavbarC() {
       {/* Links */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 36 }}>
         {links.map((link, i) => (
-          <motion.a
-            key={link}
-            href="#"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 + i * 0.07, duration: 0.5 }}
-            className="nav-hover"
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontWeight: 500,
-              fontSize: 14,
-              color: 'var(--ink)',
-              textDecoration: 'none',
-              letterSpacing: '0.01em',
-              opacity: 0.7,
-              transition: 'opacity 0.2s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.opacity = 1}
-            onMouseLeave={e => e.currentTarget.style.opacity = 0.7}
-          >{link}</motion.a>
+          <Link
+            key={link.href}
+            href={link.href}
+          >
+            <motion.a
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 + i * 0.07, duration: 0.5 }}
+              className="nav-hover"
+              style={{
+                fontFamily: 'var(--font-body)',
+                fontWeight: 500,
+                fontSize: 14,
+                color: 'var(--ink)',
+                textDecoration: 'none',
+                letterSpacing: '0.01em',
+                opacity: 0.7,
+                transition: 'opacity 0.2s',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={e => e.currentTarget.style.opacity = 1}
+              onMouseLeave={e => e.currentTarget.style.opacity = 0.7}
+            >{link.label}</motion.a>
+          </Link>
         ))}
 
-        <motion.a
-          href="#"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.5, duration: 0.4 }}
-          style={{
-            fontFamily: 'var(--font-body)',
-            fontWeight: 600,
-            fontSize: 13,
-            color: 'var(--void)',
-            textDecoration: 'none',
-            background: 'var(--lime)',
-            padding: '9px 22px',
-            borderRadius: 100,
-            letterSpacing: '0.02em',
-            transition: 'all 0.25s ease',
-          }}
-          onMouseEnter={e => {
-            e.currentTarget.style.background = 'var(--cyan)';
-            e.currentTarget.style.transform = 'scale(1.04)';
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.background = 'var(--lime)';
-            e.currentTarget.style.transform = 'scale(1)';
-          }}
-        >Get in Touch</motion.a>
-      </div>
+        <Link href="/contact">
+          <motion.a
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.5, duration: 0.4 }}
+            style={{
+              fontFamily: 'var(--font-body)',
+              fontWeight: 600,
+              fontSize: 13,
+              color: 'var(--void)',
+              textDecoration: 'none',
+              background: 'var(--lime)',
+              padding: '9px 22px',
+              borderRadius: 100,
+              letterSpacing: '0.02em',
+              transition: 'all 0.25s ease',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'var(--cyan)';
+              e.currentTarget.style.transform = 'scale(1.04)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'var(--lime)';
+              e.currentTarget.style.transform = 'scale(1)';
+            }}
+          >Get in Touch</motion.a>
+        </Link>
     </motion.nav>
   );
 }

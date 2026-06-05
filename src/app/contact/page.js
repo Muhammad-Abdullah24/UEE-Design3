@@ -1,6 +1,7 @@
 'use client';
 import { useRef, useState } from 'react';
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import NavbarC from '@/components/Navbar';
 
 // ─── FLOATING LABEL INPUT ───────────────────────────────────────
 function FloatInput({ label, type = 'text', name, required = false, textarea = false }) {
@@ -685,6 +686,7 @@ function ContactFooterBand() {
 export default function ContactPage() {
   return (
     <main>
+      <NavbarC />
       <ContactHero />
       <ContactBody />
       <ContactFooterBand />
