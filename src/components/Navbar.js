@@ -14,7 +14,7 @@ export default function NavbarC() {
   }, [scrollYProgress]);
 
   const links = [
-    { label: 'Services', href: '/#services' },
+    { label: 'Services', href: '/services' },
     { label: 'About', href: '/about' },
     { label: 'Projects', href: '/#projects' },
     { label: 'Clients', href: '/#clients' },
@@ -67,8 +67,9 @@ export default function NavbarC() {
           <Link
             key={link.href}
             href={link.href}
+            style={{ textDecoration: 'none' }}
           >
-            <motion.a
+            <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 + i * 0.07, duration: 0.5 }}
@@ -86,12 +87,12 @@ export default function NavbarC() {
               }}
               onMouseEnter={e => e.currentTarget.style.opacity = 1}
               onMouseLeave={e => e.currentTarget.style.opacity = 0.7}
-            >{link.label}</motion.a>
+            >{link.label}</motion.div>
           </Link>
         ))}
 
-        <Link href="/contact">
-          <motion.a
+        <Link href="/contact" style={{ textDecoration: 'none' }}>
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.5, duration: 0.4 }}
@@ -116,8 +117,9 @@ export default function NavbarC() {
               e.currentTarget.style.background = 'var(--lime)';
               e.currentTarget.style.transform = 'scale(1)';
             }}
-          >Get in Touch</motion.a>
+          >Get in Touch</motion.div>
         </Link>
+      </div>
     </motion.nav>
   );
 }

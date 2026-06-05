@@ -109,3 +109,21 @@ body.cursor-hover #cursor-ring {
   background: var(--lime);
   color: var(--void);
 }
+/* Global link resets to avoid browser-default blue underlines */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Keep visible focus styles for accessibility */
+a:focus {
+  outline: 2px dashed var(--lime);
+  outline-offset: 2px;
+}
+
+/* Prevent accidental underline from some user agents */
+a,
+a:visited {
+  -webkit-text-decoration-skip-ink: none;
+  text-decoration-skip-ink: none;
+}
