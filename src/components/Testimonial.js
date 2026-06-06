@@ -12,7 +12,7 @@ const testimonials = [
     accent: 'var(--lime)',
   },
   {
-    quote: 'UEE\'s HiWave Compo machine transformed our hospital food waste into fertilizer on-site. The system is reliable, odour-free, and completely automated.',
+    quote: "UEE's HiWave Compo machine transformed our hospital food waste into fertilizer on-site. The system is reliable, odour-free, and completely automated.",
     name: 'Putrajaya Hospital',
     role: 'Healthcare Client, Malaysia',
     metric: '100%',
@@ -53,23 +53,12 @@ export default function TestimonialsC() {
   const t = testimonials[active];
 
   return (
-    <section style={{
-      background: 'var(--void)',
-      padding: '120px 0',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
+    <section className="py-24 md:py-32 relative overflow-hidden" style={{ background: 'var(--void)' }}>
       {/* Ambient glow */}
-      <div style={{
-        position: 'absolute',
-        top: '50%', left: '50%',
-        transform: 'translate(-50%, -50%)',
-        width: 700, height: 400,
-        background: 'radial-gradient(ellipse, rgba(0,230,118,0.04) 0%, transparent 70%)',
-        pointerEvents: 'none',
-      }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[400px] pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse, rgba(0,230,118,0.04) 0%, transparent 70%)' }} />
 
-      <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 48px' }}>
+      <div className="max-w-[1280px] mx-auto px-6 md:px-10 xl:px-12">
 
         {/* Section label */}
         <motion.div
@@ -77,34 +66,21 @@ export default function TestimonialsC() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          style={{
-            display: 'flex', alignItems: 'center', gap: 12,
-            marginBottom: 64, justifyContent: 'center',
-          }}
+          className="flex items-center gap-3 mb-16 justify-center"
         >
-          <div style={{ width: 32, height: 2, background: 'var(--lime)' }} />
-          <span style={{
-            fontFamily: 'var(--font-body)',
-            fontWeight: 600,
-            fontSize: 12,
-            letterSpacing: '0.14em',
-            textTransform: 'uppercase',
-            color: 'var(--lime)',
-          }}>Client Testimonials</span>
-          <div style={{ width: 32, height: 2, background: 'var(--lime)' }} />
+          <div className="w-8 h-0.5" style={{ background: 'var(--lime)' }} />
+          <span className="font-body font-semibold text-[12px] tracking-[0.14em] uppercase"
+            style={{ color: 'var(--lime)' }}>Client Testimonials</span>
+          <div className="w-8 h-0.5" style={{ background: 'var(--lime)' }} />
         </motion.div>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 64,
-          alignItems: 'center',
-        }}>
-          {/* LEFT — main featured card */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+
+          {/* LEFT — fan deck card */}
           <div
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
-            style={{ position: 'relative', height: 340 }}
+            className="relative h-[300px] sm:h-[340px]"
           >
             {/* Fan cards behind */}
             {testimonials.map((_, i) => {
@@ -115,13 +91,10 @@ export default function TestimonialsC() {
               const zIndexes = [10, 7, 4, 1];
               const translateY = [0, 6, 12, 18];
               return (
-                <div
-                  key={i}
+                <div key={i} className="absolute inset-0 rounded-3xl"
                   style={{
-                    position: 'absolute', inset: 0,
                     background: 'var(--void-2)',
                     border: '1px solid rgba(255,255,255,0.05)',
-                    borderRadius: 24,
                     transform: `rotate(${rotations[offset]}deg) scale(${scales[offset]}) translateY(${translateY[offset]}px)`,
                     zIndex: zIndexes[offset],
                     transition: 'all 0.5s cubic-bezier(0.16,1,0.3,1)',
@@ -139,106 +112,53 @@ export default function TestimonialsC() {
                 animate={{ opacity: 1, y: 0, scale: 1 }}
                 exit={{ opacity: 0, y: -20, scale: 0.97 }}
                 transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute inset-0 rounded-3xl p-8 md:p-10 flex flex-col justify-between"
                 style={{
-                  position: 'absolute', inset: 0,
                   background: 'var(--void-3)',
                   border: `1px solid ${t.accent}30`,
-                  borderRadius: 24,
-                  padding: '40px 36px',
                   zIndex: 20,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  justifyContent: 'space-between',
                   boxShadow: `0 32px 64px rgba(0,0,0,0.4), 0 0 0 1px ${t.accent}10`,
                 }}
               >
-                {/* Quote mark */}
                 <div style={{
                   fontFamily: 'Georgia, serif',
-                  fontSize: 80,
+                  fontSize: 64,
                   lineHeight: 0.6,
                   color: t.accent,
                   opacity: 0.4,
-                  marginBottom: 16,
+                  marginBottom: 12,
                 }}>"</div>
 
-                <p style={{
-                  fontFamily: 'var(--font-body)',
-                  fontWeight: 400,
-                  fontSize: 16,
-                  lineHeight: 1.8,
-                  color: '#B2CFB8',
-                  flex: 1,
-                }}>
-                  {t.quote}
-                </p>
+                <p className="font-body font-normal text-sm md:text-base leading-relaxed flex-1"
+                  style={{ color: '#B2CFB8' }}>{t.quote}</p>
 
-                <div style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'space-between',
-                  marginTop: 32,
-                  paddingTop: 24,
-                  borderTop: '1px solid rgba(255,255,255,0.06)',
-                }}>
+                <div className="flex items-center justify-between mt-8 pt-6"
+                  style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}>
                   <div>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontWeight: 700,
-                      fontSize: 15,
-                      color: 'var(--text-dark)',
-                      marginBottom: 3,
-                    }}>{t.name}</div>
-                    <div style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 13,
-                      color: 'var(--text-muted-dark)',
-                    }}>{t.role}</div>
+                    <div className="font-display font-bold text-[15px] mb-0.5" style={{ color: 'var(--text-dark)' }}>{t.name}</div>
+                    <div className="font-body text-[13px]" style={{ color: 'var(--text-muted-dark)' }}>{t.role}</div>
                   </div>
-                  <div style={{ textAlign: 'right' }}>
-                    <div style={{
-                      fontFamily: 'var(--font-display)',
-                      fontWeight: 700,
-                      fontSize: 22,
-                      color: t.accent,
-                      letterSpacing: '-0.03em',
-                    }}>{t.metric}</div>
-                    <div style={{
-                      fontFamily: 'var(--font-body)',
-                      fontSize: 11,
-                      color: 'var(--text-muted-dark)',
-                      letterSpacing: '0.06em',
-                      textTransform: 'uppercase',
-                    }}>{t.metricLabel}</div>
+                  <div className="text-right">
+                    <div className="font-display font-bold text-xl" style={{ color: t.accent, letterSpacing: '-0.03em' }}>{t.metric}</div>
+                    <div className="font-body text-[11px] tracking-widest uppercase" style={{ color: 'var(--text-muted-dark)' }}>{t.metricLabel}</div>
                   </div>
                 </div>
 
-                {/* Accent top line */}
-                <div style={{
-                  position: 'absolute', top: 0, left: 24, right: 24, height: 2,
-                  background: `linear-gradient(90deg, ${t.accent}, transparent)`,
-                  borderRadius: 2,
-                }} />
+                <div className="absolute top-0 left-6 right-6 h-0.5 rounded-sm"
+                  style={{ background: `linear-gradient(90deg, ${t.accent}, transparent)` }} />
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* RIGHT — heading + nav dots + list */}
+          {/* RIGHT — heading + nav + list */}
           <div>
             <motion.h2
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              style={{
-                fontFamily: 'var(--font-display)',
-                fontWeight: 700,
-                fontSize: 'clamp(30px, 3.5vw, 44px)',
-                color: 'var(--text-dark)',
-                letterSpacing: '-0.03em',
-                lineHeight: 1.1,
-                marginBottom: 24,
-              }}
+              className="font-display font-bold leading-tight mb-6"
+              style={{ fontSize: 'clamp(26px, 3.5vw, 44px)', color: 'var(--text-dark)', letterSpacing: '-0.03em' }}
             >
               Trusted by Industry<br />
               <span style={{ color: 'var(--lime)' }}>Leaders Worldwide</span>
@@ -249,33 +169,20 @@ export default function TestimonialsC() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              style={{
-                fontFamily: 'var(--font-body)',
-                fontWeight: 400,
-                fontSize: 15,
-                lineHeight: 1.75,
-                color: 'var(--text-muted-dark)',
-                marginBottom: 40,
-              }}
+              className="font-body font-normal text-[15px] leading-relaxed mb-10"
+              style={{ color: 'var(--text-muted-dark)' }}
             >
               From paper mills to hospitals, from Malaysia to Pakistan — our clients trust UEE to deliver compliant, reliable environmental systems that perform for decades.
             </motion.p>
 
-            {/* Dot navigation */}
-            <div style={{ display: 'flex', gap: 10, marginBottom: 40 }}>
+            {/* Dot nav */}
+            <div className="flex gap-2.5 mb-10">
               {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActive(i)}
+                <button key={i} onClick={() => setActive(i)}
+                  className="h-2 rounded-full border-none cursor-pointer transition-all duration-300 p-0"
                   style={{
                     width: i === active ? 32 : 8,
-                    height: 8,
-                    borderRadius: 100,
                     background: i === active ? 'var(--lime)' : 'rgba(255,255,255,0.15)',
-                    border: 'none',
-                    cursor: 'pointer',
-                    transition: 'all 0.3s ease',
-                    padding: 0,
                   }}
                 />
               ))}
@@ -287,35 +194,17 @@ export default function TestimonialsC() {
                 key={i}
                 onClick={() => setActive(i)}
                 whileHover={{ x: 4 }}
+                className="flex items-center gap-3 py-3 cursor-pointer transition-opacity duration-300"
                 style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: '12px 0',
                   borderBottom: '1px solid rgba(255,255,255,0.05)',
-                  cursor: 'pointer',
                   opacity: i === active ? 1 : 0.45,
-                  transition: 'opacity 0.3s',
                 }}
               >
-                <div style={{
-                  width: 6, height: 6,
-                  borderRadius: '50%',
-                  background: i === active ? t2.accent : 'rgba(255,255,255,0.2)',
-                  transition: 'background 0.3s',
-                }} />
+                <div className="w-1.5 h-1.5 rounded-full transition-colors duration-300"
+                  style={{ background: i === active ? t2.accent : 'rgba(255,255,255,0.2)' }} />
                 <div>
-                  <div style={{
-                    fontFamily: 'var(--font-display)',
-                    fontWeight: 600,
-                    fontSize: 14,
-                    color: 'var(--text-dark)',
-                  }}>{t2.name}</div>
-                  <div style={{
-                    fontFamily: 'var(--font-body)',
-                    fontSize: 12,
-                    color: 'var(--text-muted-dark)',
-                  }}>{t2.role}</div>
+                  <div className="font-display font-semibold text-sm" style={{ color: 'var(--text-dark)' }}>{t2.name}</div>
+                  <div className="font-body text-xs" style={{ color: 'var(--text-muted-dark)' }}>{t2.role}</div>
                 </div>
               </motion.div>
             ))}
