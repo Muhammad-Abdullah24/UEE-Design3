@@ -1,24 +1,8 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 
-// Globe mesh SVG paths — equator + meridian lines as ellipses
 function GlobeMesh({ mouse }) {
-  const lines = [
-    // Horizontal latitude lines (ellipses, varying compression)
-    { rx: 90, ry: 8,  cy: 100 },
-    { rx: 90, ry: 22, cy: 100 },
-    { rx: 90, ry: 42, cy: 100 },
-    { rx: 90, ry: 62, cy: 100 },
-    { rx: 90, ry: 80, cy: 100 },
-    { rx: 90, ry: 90, cy: 100 },
-    { rx: 90, ry: 80, cy: 100, flip: true },
-    { rx: 90, ry: 62, cy: 100, flip: true },
-    { rx: 90, ry: 42, cy: 100, flip: true },
-    { rx: 90, ry: 22, cy: 100, flip: true },
-    { rx: 90, ry: 8,  cy: 100, flip: true },
-  ];
-
   const tiltX = (mouse.y - 0.5) * 12;
   const tiltY = (mouse.x - 0.5) * -12;
 
@@ -50,25 +34,16 @@ function GlobeMesh({ mouse }) {
           </clipPath>
         </defs>
 
-        {/* Globe fill */}
         <circle cx="100" cy="100" r="90" fill="url(#globeGrad)" />
 
-        {/* Grid lines — clipped to circle */}
         <g clipPath="url(#globeClip)" fill="none" strokeWidth="0.6">
-          {/* Latitude lines */}
           {[30, 55, 75, 90, 105, 125, 145, 165].map((cy, i) => {
             const dist = Math.abs(cy - 100);
-            const ry = Math.sqrt(Math.max(0, 90*90 - dist*dist)) * 0.25;
+            const ry = Math.sqrt(Math.max(0, 90 * 90 - dist * dist)) * 0.25;
             return (
-              <ellipse
-                key={`lat-${i}`}
-                cx="100" cy={cy}
-                rx="90" ry={ry}
-                stroke="rgba(0,230,118,0.35)"
-              />
+              <ellipse key={`lat-${i}`} cx="100" cy={cy} rx="90" ry={ry} stroke="rgba(0,230,118,0.35)" />
             );
           })}
-          {/* Longitude lines */}
           {[0, 30, 60, 90, 120, 150].map((angle, i) => (
             <ellipse
               key={`lon-${i}`}
@@ -81,10 +56,8 @@ function GlobeMesh({ mouse }) {
           ))}
         </g>
 
-        {/* Outer ring */}
         <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(0,230,118,0.5)" strokeWidth="0.8" />
 
-        {/* Orbiting dots */}
         {[0, 72, 144, 216, 288].map((angle, i) => {
           const rad = (angle * Math.PI) / 180;
           const x = 100 + 100 * Math.cos(rad);
@@ -100,7 +73,6 @@ function GlobeMesh({ mouse }) {
           );
         })}
 
-        {/* Center pulse */}
         <motion.circle
           cx="100" cy="100" r="6"
           fill="var(--lime)"
@@ -110,7 +82,6 @@ function GlobeMesh({ mouse }) {
         <circle cx="100" cy="100" r="3" fill="var(--void)" />
       </svg>
 
-      {/* Service icon tags orbiting */}
       {[
         { label: 'Wastewater', angle: -30, color: 'var(--lime)' },
         { label: 'Biomass', angle: 60, color: 'var(--cyan)' },
@@ -148,7 +119,6 @@ function GlobeMesh({ mouse }) {
   );
 }
 
-// Floating ambient particles
 function AmbientParticles() {
   const particles = Array.from({ length: 18 }, (_, i) => ({
     id: i,
@@ -161,15 +131,11 @@ function AmbientParticles() {
   }));
 
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', pointerEvents: 'none' }}>
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
       {particles.map(p => (
         <motion.div
           key={p.id}
-          animate={{
-            y: [0, -40, 0],
-            x: [0, Math.random() * 20 - 10, 0],
-            opacity: [0.4, 0.9, 0.4],
-          }}
+          animate={{ y: [0, -40, 0], x: [0, Math.random() * 20 - 10, 0], opacity: [0.4, 0.9, 0.4] }}
           transition={{ duration: p.duration, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
           style={{
             position: 'absolute',
@@ -216,15 +182,8 @@ export default function HeroC() {
   return (
     <motion.section
       ref={containerRef}
-      style={{
-        minHeight: '100vh',
-        background: 'var(--mint)',
-        position: 'relative',
-        overflow: 'hidden',
-        display: 'flex',
-        alignItems: 'center',
-        paddingTop: 90,
-      }}
+      className="min-h-screen relative overflow-hidden flex items-center pt-20 pb-16"
+      style={{ background: 'var(--mint)' }}
     >
       {/* Mouse spotlight */}
       <div style={{
@@ -235,21 +194,16 @@ export default function HeroC() {
         zIndex: 1,
       }} />
 
-      {/* Diagonal divider — right half tinted */}
-      <div style={{
-        position: 'absolute',
-        top: 0, right: 0,
-        width: '52%',
-        height: '100%',
-        background: 'linear-gradient(160deg, rgba(0,230,118,0.04) 0%, rgba(0,229,255,0.06) 100%)',
-        clipPath: 'polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%)',
-        pointerEvents: 'none',
-        zIndex: 0,
-      }} />
+      {/* Diagonal tint */}
+      <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none"
+        style={{
+          background: 'linear-gradient(160deg, rgba(0,230,118,0.04) 0%, rgba(0,229,255,0.06) 100%)',
+          clipPath: 'polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%)',
+        }}
+      />
 
-      {/* Background grid texture */}
-      <div style={{
-        position: 'absolute', inset: 0,
+      {/* Grid texture */}
+      <div className="absolute inset-0 pointer-events-none" style={{
         backgroundImage: `
           linear-gradient(rgba(0,230,118,0.04) 1px, transparent 1px),
           linear-gradient(90deg, rgba(0,230,118,0.04) 1px, transparent 1px)
@@ -261,66 +215,34 @@ export default function HeroC() {
       <AmbientParticles />
 
       {/* Main layout */}
-      <div style={{
-        maxWidth: 1280,
-        margin: '0 auto',
-        padding: '0 48px',
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 40,
-        position: 'relative',
-        zIndex: 2,
-      }}>
+      <div className="max-w-[1280px] mx-auto px-6 md:px-10 xl:px-12 w-full flex flex-col lg:flex-row items-center justify-between gap-10 relative z-[2]">
 
         {/* LEFT — Text */}
-        <motion.div style={{ flex: 1, maxWidth: 580, y: yText, opacity }}>
-
+        <motion.div
+          style={{ y: yText, opacity }}
+          className="flex-1 w-full max-w-full lg:max-w-[580px] text-center lg:text-left"
+        >
           {/* Badge */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
+            className="inline-flex items-center gap-2 rounded-full px-3 py-1.5 mb-8"
             style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
               background: 'rgba(0,230,118,0.1)',
               border: '1px solid rgba(0,230,118,0.3)',
-              borderRadius: 100,
-              padding: '6px 16px 6px 8px',
-              marginBottom: 32,
             }}
           >
-            <span style={{
-              background: 'var(--lime)',
-              color: 'var(--void)',
-              fontSize: 10,
-              fontWeight: 700,
-              fontFamily: 'var(--font-display)',
-              padding: '2px 8px',
-              borderRadius: 100,
-              letterSpacing: '0.08em',
-            }}>EST. 1980</span>
-            <span style={{
-              fontSize: 13,
-              fontFamily: 'var(--font-body)',
-              color: 'var(--muted-dark)',
-              fontWeight: 500,
-            }}>40+ Years of Excellence</span>
+            <span className="font-display font-bold text-[10px] tracking-widest text-void px-2 py-0.5 rounded-full"
+              style={{ background: 'var(--lime)' }}>EST. 1980</span>
+            <span className="font-body font-medium text-[13px]" style={{ color: 'var(--muted-dark)' }}>
+              40+ Years of Excellence
+            </span>
           </motion.div>
 
-          {/* Headline — word by word */}
-          <h1 style={{
-            fontFamily: 'var(--font-display)',
-            fontWeight: 700,
-            fontSize: 'clamp(48px, 6vw, 80px)',
-            lineHeight: 1.0,
-            letterSpacing: '-0.03em',
-            color: 'var(--ink)',
-            marginBottom: 28,
-          }}>
+          {/* Headline */}
+          <h1 className="font-display font-bold leading-none tracking-tight mb-7"
+            style={{ fontSize: 'clamp(44px, 8vw, 80px)', letterSpacing: '-0.03em', color: 'var(--ink)' }}>
             {headline.map((word, i) => (
               <motion.span
                 key={word + i}
@@ -329,12 +251,10 @@ export default function HeroC() {
                 transition={{ duration: 0.65, delay: 0.3 + i * 0.12, ease: [0.16, 1, 0.3, 1] }}
                 style={{
                   display: 'inline-block',
-                  marginRight: word === 'a' || word === 'Cleaner' ? '0.28em' : '0.22em',
-                  color: word === 'Cleaner' ? 'var(--lime-dim)' : word === 'World.' ? 'var(--ink)' : 'var(--ink)',
+                  marginRight: '0.22em',
+                  color: word === 'Cleaner' ? 'var(--lime-dim)' : 'var(--ink)',
                 }}
-              >
-                {word}
-              </motion.span>
+              >{word}</motion.span>
             ))}
           </h1>
 
@@ -343,15 +263,8 @@ export default function HeroC() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.85 }}
-            style={{
-              fontFamily: 'var(--font-body)',
-              fontWeight: 400,
-              fontSize: 17,
-              lineHeight: 1.7,
-              color: 'var(--muted-dark)',
-              maxWidth: 460,
-              marginBottom: 44,
-            }}
+            className="font-body font-normal text-base md:text-lg leading-relaxed mb-11 mx-auto lg:mx-0 max-w-[460px]"
+            style={{ color: 'var(--muted-dark)' }}
           >{sub}</motion.p>
 
           {/* CTAs */}
@@ -359,68 +272,32 @@ export default function HeroC() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 1.0 }}
-            style={{ display: 'flex', gap: 16, alignItems: 'center', flexWrap: 'wrap' }}
+            className="flex flex-col sm:flex-row gap-4 items-center justify-center lg:justify-start"
           >
-            <a href="#" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 10,
-              background: 'var(--lime)',
-              color: 'var(--void)',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 700,
-              fontSize: 15,
-              padding: '14px 30px',
-              borderRadius: 100,
-              textDecoration: 'none',
-              letterSpacing: '0.01em',
-              transition: 'all 0.25s ease',
-            }}
+            <a href="#" className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-body font-bold text-[15px] text-void no-underline px-7 py-3.5 rounded-full transition-all duration-200"
+              style={{ background: 'var(--lime)', letterSpacing: '0.01em' }}
               onMouseEnter={e => { e.currentTarget.style.background = 'var(--cyan)'; e.currentTarget.style.transform = 'scale(1.04)'; }}
               onMouseLeave={e => { e.currentTarget.style.background = 'var(--lime)'; e.currentTarget.style.transform = 'scale(1)'; }}
             >
               Explore Solutions
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
-            <a href="#" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: 8,
-              color: 'var(--ink)',
-              fontFamily: 'var(--font-body)',
-              fontWeight: 600,
-              fontSize: 15,
-              textDecoration: 'none',
-              padding: '14px 8px',
-              borderBottom: '1.5px solid var(--ink)',
-              transition: 'all 0.2s',
-            }}
+            <a href="#" className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-body font-semibold text-[15px] no-underline py-3.5 px-2 transition-all duration-200"
+              style={{ color: 'var(--ink)', borderBottom: '1.5px solid var(--ink)' }}
               onMouseEnter={e => { e.currentTarget.style.color = 'var(--lime-dim)'; e.currentTarget.style.borderColor = 'var(--lime-dim)'; }}
               onMouseLeave={e => { e.currentTarget.style.color = 'var(--ink)'; e.currentTarget.style.borderColor = 'var(--ink)'; }}
-            >
-              View Projects →
-            </a>
+            >View Projects →</a>
           </motion.div>
 
-          {/* Scroll hint */}
+          {/* Scroll hint — hidden on mobile */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.6, duration: 0.8 }}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
-              marginTop: 56,
-              color: 'var(--muted-light)',
-              fontSize: 12,
-              fontFamily: 'var(--font-body)',
-              fontWeight: 500,
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
-            }}
+            className="hidden md:flex items-center gap-2.5 mt-14"
+            style={{ color: 'var(--muted-light)', fontSize: 12, fontFamily: 'var(--font-body)', fontWeight: 500, letterSpacing: '0.08em', textTransform: 'uppercase' }}
           >
             <motion.div
               animate={{ y: [0, 5, 0] }}
@@ -433,9 +310,10 @@ export default function HeroC() {
           </motion.div>
         </motion.div>
 
-        {/* RIGHT — Globe */}
+        {/* RIGHT — Globe: hidden on mobile, visible from lg */}
         <motion.div
-          style={{ position: 'relative', y: yGlobe }}
+          className="hidden lg:flex relative"
+          style={{ y: yGlobe }}
           initial={{ opacity: 0, x: 60 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 1, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
@@ -445,8 +323,8 @@ export default function HeroC() {
 
       </div>
 
-      {/* Bottom wave divider */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, zIndex: 3 }}>
+      {/* Bottom wave */}
+      <div className="absolute bottom-0 left-0 right-0 z-[3]">
         <svg viewBox="0 0 1440 80" fill="none" preserveAspectRatio="none" style={{ display: 'block', width: '100%', height: 80 }}>
           <path d="M0,40 C240,80 480,0 720,40 C960,80 1200,0 1440,40 L1440,80 L0,80 Z" fill="#060D08" />
         </svg>
